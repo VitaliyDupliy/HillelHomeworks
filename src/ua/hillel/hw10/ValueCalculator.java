@@ -2,7 +2,7 @@ package ua.hillel.hw10;
 
 public class ValueCalculator {
 
-	float[] array = new float[30000000];
+	float[] array = new float[20000000];
 	int halfArray = array.length / 2;
 	float[] firstArray = new float[halfArray];
 	float[] secondArray = new float[halfArray];
@@ -19,9 +19,10 @@ public class ValueCalculator {
 		Thread thread2 = new Thread(new MyRunnable2());
 		
 		thread1.start();
-		thread1.join();;
 		thread2.start();
-		thread2.join();;
+		
+		thread1.join();
+		thread2.join();
 
 		long end = System.currentTimeMillis();
 		long operationTime = (end - start);
