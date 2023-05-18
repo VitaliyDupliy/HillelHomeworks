@@ -1,4 +1,4 @@
-package ua.hillel.hw9;
+ package ua.hillel.hw9;
 
 public enum LoggingLevel {
 	

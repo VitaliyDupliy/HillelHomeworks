@@ -6,45 +6,65 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+
 public class FileLoggerConfigurationLoader {
 
-	public FileLoggerConfiguration loader(File configFile) throws FileNotFoundException {
+	/*
+	 * FILE: path to the file 
+	 * LEVEL: logging level 
+	 * MAX-SIZE: size 
+	 * FORMAT: [TIME] [LEVEL] - [MESSAGE]
+	 * 
+	 */
+	
+	private static long size = 0;
+	
+	public static FileLoggerConfiguration loader(File configFile) throws FileNotFoundException, IOException {
+		
+	String file = null;
+	LoggingLevel level = null;
+	String format = null;
 
-		String file = null;
-		String format = null;
-		long maxFileSize = 0;
-		LoggingLevel level = null;
 
-		try (BufferedReader bReader = new BufferedReader(new FileReader(configFile))) {
-			while ((bReader.readLine()) != null) {
-				String[] partsOfLine = bReader.readLine().split(":");
-				String value = partsOfLine[1].trim();
-				switch (partsOfLine[0]) {
-				case "FILE":  
-					file = value;
+		
+		try (BufferedReader reader =  new BufferedReader(new FileReader(configFile))) {
+			
+			String line;
+			while((line = reader.readLine()) != null) { 
+				
+				String [] lineParts = line.split(":");
+				String volume = lineParts[1].trim();
+				
+				switch (lineParts[0]) {
+				case "FILE":
+					file = volume;
+
 					break;
 				case "LEVEL":
-					level = LoggingLevel.valueOf(value);
+					level = LoggingLevel.valueOf(volume);
+
 					break;
 				case "MAX-SIZE":
-					maxFileSize = Long.parseLong(value);
+					size = Long.parseLong(volume);
+
 					break;
 				case "FORMAT":
-					format = value;
+					format = volume;
+
 					break;
 				}
-
+				
 			}
-		} catch (FileNotFoundException e) {
-			throw e;
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-		
-		if(file == null || format == null || level == null) {
-			throw new IllegalArgumentException("Invalid config");
+		if(file == null || level == null || size <= 0 || format == null) {
+			throw new IllegalArgumentException();
 		}
+		return new FileLoggerConfiguration(new File(file), level, size, format);
+	}
+	
 
-		return new FileLoggerConfiguration(new File(file), level, maxFileSize, format);
+	public static long getSize() {
+		return size;
 	}
 }
+
