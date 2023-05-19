@@ -19,7 +19,7 @@ public class FileLoggerConfigurationLoader {
 	
 	private static long size = 0;
 	
-	public static FileLoggerConfiguration loader(File configFile) throws FileNotFoundException, IOException {
+	public static FileLoggerConfiguration load (File configFile) throws FileNotFoundException, IOException {
 		
 	String file = null;
 	LoggingLevel level = null;
