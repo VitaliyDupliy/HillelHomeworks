@@ -10,11 +10,11 @@ import java.time.format.DateTimeFormatter;
 //(File file, LoggingLevel level, long maxFileSize, String format)
 // [TIME] [LEVEL] - [MESSAGE]
 
-public class FileLogger {
+public class FileLogger implements Logger{
 
 	private final FileLoggerConfiguration configuration;
 
-	private static final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'Log_'dd.LL.yyyy_'time'HH-mm-ss");
+	private static final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'Log_'dd.LL.yyyy_'time 'HH-mm-ss");
 	
 	
 
@@ -22,11 +22,11 @@ public class FileLogger {
 		this.configuration = configuration;
 	}
 
-	void info(String message) {
+	public void info(String message) {
 		log( message);
 	}
 
-	void debug(String message) {
+	public void debug(String message) {
 		if (configuration.getLevel() != LoggingLevel.DEBUG) {
 			return;
 		}
@@ -56,9 +56,9 @@ public class FileLogger {
 
 			String messageForLogfile = configuration.getFormat();
 
-			messageForLogfile = messageForLogfile.replace("TIME", time);
-			messageForLogfile = messageForLogfile.replace("LEVEL", configuration.getLevel().name());
-			messageForLogfile = messageForLogfile.replace("MESSAGE", message);
+			messageForLogfile = messageForLogfile.replace("[TIME]", time);
+			messageForLogfile = messageForLogfile.replace("[LEVEL]", configuration.getLevel().name());
+			messageForLogfile = messageForLogfile.replace("[MESSAGE]", message);
 
 			writer.append(messageForLogfile + "\n");
 			

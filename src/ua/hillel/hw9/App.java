@@ -6,17 +6,22 @@ import java.io.IOException;
 
 public class App {
 
-	public static void main(String[] args) throws FileNotFoundException, IOException  {
-		
-		
-	  FileLoggerConfiguration configuration = FileLoggerConfigurationLoader.load(new File("FileLogConfig.txt"));
-		
+	public static void main(String[] args) throws FileNotFoundException, IOException {
 
-		FileLogger filelogger = new FileLogger(configuration);
-		
-		for (int i = 0; i < 1000; i++) {
-		filelogger.info("info message" + i);
-		filelogger.debug("debug message" + i);
+		FileLoggerConfiguration configuration = FileLoggerConfigurationLoader.load(new File("FileLogConfig.txt"));
+
+//		Logger filelogger = new FileLogger(configuration);
+
+//		for (int i = 0; i < 2000; i++) {
+//		filelogger.info("info message" + i);
+//		filelogger.debug("debug message" + i);
+//		}
+
+		Logger consoleLogger = new ConsoleLogger(configuration);
+
+		for (int i = 0; i < 20; i++) {
+			consoleLogger.info("Info message");
 		}
+
 	}
 }
