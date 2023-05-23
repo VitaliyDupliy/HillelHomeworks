@@ -1,5 +1,7 @@
 package ua.hillel.hw13;
 
+import java.util.Objects;
+
 public class FileData {
 
 	private String name;
@@ -28,6 +30,14 @@ public class FileData {
 		return size;
 	}
 
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, path, size);
+	}
+
+
+	
 
 	
 	
