@@ -1,6 +1,7 @@
 package ua.hillel.hw13;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class FileNavigator {
 	
 	public  List<FileData> sortBySize () {
 		
-		(fileMap.get(path)).sort(new FileDataComparator());
+		Collections.sort(fileMap.get(path));
 		
 		return fileMap.get(path);
 		

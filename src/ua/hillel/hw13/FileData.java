@@ -1,8 +1,6 @@
 package ua.hillel.hw13;
 
-import java.util.Objects;
-
-public class FileData {
+public class FileData implements Comparable<FileData> {
 
 	private String name;
 	private String path;
@@ -32,16 +30,12 @@ public class FileData {
 
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(name, path, size);
+	public int compareTo(FileData o) {
+		
+		return this.size - o.size;
 	}
 
-
 	
-
-	
-	
-	
-	
+			
 	
 }
