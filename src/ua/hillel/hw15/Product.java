@@ -93,20 +93,26 @@ public class Product {
 	 * {тип: список_продуктів}
 	 */
 
-	public static Map<String, ArrayList<Product>> groupProduct (List<Product> prod) {
-		Map<String, ArrayList<Product>> tipesMap = new HashMap<>();
-		prod.stream().forEach(p -> {if(tipesMap.containsKey(p.getTipe())) {
-			
-			tipesMap.get(p.getTipe()).add(p);
-		} else {
-			tipesMap.putIfAbsent(p.getTipe(), new ArrayList<Product>());
-			tipesMap.get(p.getTipe()).add(p);
-		}
+	public static Map<String, List<Product>> groupProduct (List<Product> prod) {
+//		Map<String, ArrayList<Product>> tipesMap = new HashMap<>();
+//		prod.stream().forEach(p -> {if(tipesMap.containsKey(p.getTipe())) {
+//			
+//			tipesMap.get(p.getTipe()).add(p);
+//		} else {
+//			tipesMap.putIfAbsent(p.getTipe(), new ArrayList<Product>());
+//			tipesMap.get(p.getTipe()).add(p);
+//		}
+//				
+//				});
+//		
+//		return tipesMap;
+		 Map<String, List<Product>> map = prod.stream()
+				 .collect(Collectors.groupingBy(p -> p.getTipe()));
+		 for(Map.Entry<String, List <Product>> entry: map.entrySet()) {
+			 System.out.println(entry.getKey() + ": " + entry.getValue());
+		 }
 				
-				});
-		
-		return tipesMap;
-		
+				return map;
 	}
 	
 	

@@ -2,6 +2,7 @@ package ua.hillel.hw15;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class App {
 
@@ -34,10 +35,11 @@ public class App {
 //		System.out.println(Product.groupProd250(list));
 //		System.out.println(Product.discountProd(list));
 //		System.out.println(Product.cheapestProd(list));
-		System.out.println(Product.find3LastProd(list));
+//		System.out.println(Product.find3LastProd(list));
 //		System.out.println(Product.totalCostProducts(list, "Dress"));
 //		System.out.println(Product.groupProduct (list));
-
+		Product.groupProduct (list);
+		
 	}
 
 }
