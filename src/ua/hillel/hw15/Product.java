@@ -106,6 +106,7 @@ public class Product {
 //				});
 //		
 //		return tipesMap;
+		
 		 Map<String, List<Product>> map = prod.stream()
 				 .collect(Collectors.groupingBy(p -> p.getTipe()));
 		 for(Map.Entry<String, List <Product>> entry: map.entrySet()) {
