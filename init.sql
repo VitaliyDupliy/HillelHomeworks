@@ -1,79 +1,32 @@
-CREATE DATABASE hillel
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'Russian_Ukraine.1251'
-    LC_CTYPE = 'Russian_Ukraine.1251'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
-	
-	*************************************************
-	
-	CREATE TABLE IF NOT EXISTS public.homework
+CREATE TABLE Homework
 (
-    homework_id integer NOT NULL DEFAULT nextval('homework_homework_id_seq'::regclass),
-    hw_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
-    description text COLLATE pg_catalog."default",
-    CONSTRAINT pk_homework PRIMARY KEY (homework_id)
-)
+	hw_id SERIAL PRIMARY KEY,
+	hw_name VARCHAR(50) NOT NULL,
+	description TEXT NOT NULL
+);
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.homework
-    OWNER to postgres;
-	
-	***************************************************
-	
-	CREATE TABLE IF NOT EXISTS public.lesson
+CREATE TABLE Lesson 
 (
-    lesson_id integer NOT NULL DEFAULT nextval('lesson_lesson_id_seq'::regclass),
-    lesson_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
-    update_at timestamp without time zone,
-    fk_homework_id integer,
-    CONSTRAINT pk_lesson_id PRIMARY KEY (lesson_id),
-    CONSTRAINT lesson_fk_homework_id_fkey FOREIGN KEY (fk_homework_id)
-        REFERENCES public.homework (homework_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
+	les_id SERIAL PRIMARY KEY,
+	les_name VARCHAR(50) NOT NULL,
+	update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	fk_homework_id INT REFERENCES Homework(hw_id) 
+);
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.lesson
-    OWNER to postgres;
-	
-	***************************************************
-	
-	CREATE TABLE IF NOT EXISTS public.schedule
+CREATE TABLE Schedule
 (
-    id integer NOT NULL DEFAULT nextval('schedule_id_seq'::regclass),
-    name text COLLATE pg_catalog."default" NOT NULL,
-    update_at timestamp without time zone,
-    CONSTRAINT schedule_pkey PRIMARY KEY (id)
-)
+	s_id SERIAL PRIMARY KEY,
+	s_name VARCHAR(50) NOT NULL,
+	update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	lesson_id INT,
+	CONSTRAINT fkey_to_lesson FOREIGN KEY(lesson_id) REFERENCES Lesson(les_id)
+);
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.schedule
-    OWNER to postgres;
-	
-	**************************************************
-	
-	CREATE TABLE IF NOT EXISTS public.lessons
+CREATE TABLE lessons
 (
-    schedule_id integer NOT NULL,
-    lesson_id integer NOT NULL,
-    CONSTRAINT lessons_pkey PRIMARY KEY (schedule_id, lesson_id),
-    CONSTRAINT lessons_lesson_id_fkey FOREIGN KEY (lesson_id)
-        REFERENCES public.lesson (lesson_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
+	schedule_id int REFERENCES Schedule(s_id),
+	lesson_id int REFERENCES Lesson(les_id),
+	CONSTRAINT schedule_lesson_pkey PRIMARY KEY(schedule_id, lesson_id)
+);
 
-TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.lessons
-    OWNER to postgres;
-	
-	
