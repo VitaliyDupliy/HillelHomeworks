@@ -2,66 +2,69 @@ package ua.hillel.hw19;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-
 public class TestRunner {
-	
-	static void start (Class<?> objekt) throws IllegalAccessException, IllegalArgumentException, ReflectiveOperationException {
-		
-	
-		
-		Annotation[] beforeSuiteMethods = objekt.getDeclaredAnnotationsByType(BeforeSuite.class);
+
+	static void start(Class<?> objekt)
+			throws IllegalAccessException, IllegalArgumentException, ReflectiveOperationException {
+
+		Annotation[] beforeSuiteMethods = objekt.getDeclaredAnnotations();
 		if (beforeSuiteMethods.length > 1) {
 			throw new NoSuchMethodException("There should be only one method with @BeforeSuite");
 		}
-		
-		
-		Annotation[] afterSuiteMethods = objekt.getDeclaredAnnotationsByType(AfterSuite.class);
-		if (afterSuiteMethods.length > 1) {
-			throw new NoSuchMethodException("There should be only one method with @AfterSuite ");
-		}
-		
-		Method[] methods = objekt.getDeclaredMethods(); 
-		
+
+		Method[] methods = objekt.getDeclaredMethods();
+
 		PriorityQueue<Method> testMethods = new PriorityQueue<>(new Comparator<Method>() {
 
 			@Override
 			public int compare(Method m1, Method m2) {
-				
-				
-				return m1.getDeclaredAnnotation(Test.class).priority() - m2.getDeclaredAnnotation(Test.class).priority();
+
+				return m1.getDeclaredAnnotation(Test.class).priority()
+						- m2.getDeclaredAnnotation(Test.class).priority();
 			}
-			
+
 		});
-		
-		
-		for (Method method: methods) {
-			
-			if(method.isAnnotationPresent(BeforeSuite.class)) {
+
+		int countBefore = 0;
+		for (Method method : methods) {
+
+			if (method.isAnnotationPresent(BeforeSuite.class)) {
 				method.invoke(objekt.newInstance());
+				countBefore++;
 			}
-			
-						
-			if(method.isAnnotationPresent(Test.class)) {
-			testMethods.add(method);
+			if (countBefore > 1) {
+				throw new NoSuchMethodException("There should be only one method with @BeforeSuite ");
 			}
-			
-			while(!testMethods.isEmpty()) {
-				testMethods.poll().invoke(objekt.newInstance());
+		}
+
+		for (Method method : methods) {
+			if (method.isAnnotationPresent(Test.class)) {
+				testMethods.add(method);
 			}
-				
-				
-			
-			if(method.isAnnotationPresent(AfterSuite.class)) {
+		}
+
+
+
+		while (!testMethods.isEmpty()) {
+			testMethods.poll().invoke(objekt.newInstance());
+		}
+
+		int countAfter = 0;
+		for (Method method : methods) {
+
+			if (method.isAnnotationPresent(AfterSuite.class)) {
 				method.invoke(objekt.newInstance());
+				countAfter++;
 			}
-			
+			if (countAfter > 1) {
+				throw new NoSuchMethodException("There should be only one method with @AfterSuite ");
+			}
 		}
-		
-	
-		}
-	
+
+	}
 
 }

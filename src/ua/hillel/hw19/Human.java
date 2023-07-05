@@ -2,13 +2,16 @@ package ua.hillel.hw19;
 
 public class Human {
 	
-	
-	
-	
+			
 	
 	@BeforeSuite
 	public void methodBefore() {
 		System.out.println("Method with @BeforeSuite annotation");
+	}
+	
+	
+	public void methodBefore2() {
+		System.out.println("Method2 with @BeforeSuite annotation");
 	}
 	
 	
@@ -18,29 +21,26 @@ public class Human {
 	}
 	
 	@Test(priority = 1)
-	public void methodTEst1() {
-		System.out.println("methodTest wiht priority " + 1);
+	public void methodTest1() {
+		System.out.println("methodTest with priority " + 1);
 	}
 	
 	@Test(priority = 10)
-	public void methodTEst2() {
-		System.out.println("methodTest wiht priority " + 10);
+	public void methodTest2() {
+		System.out.println("methodTest with priority " + 10);
 	}
 	
 	@Test(priority = 3)
-	public void methodTEst3() {
-		System.out.println("methodTest wiht priority " + 3);
+	public void methodTest3() {
+		System.out.println("methodTest with priority " + 3);
 	}
 	
 	@Test(priority = 6)
-	public void methodTEst4() {
-		System.out.println("methodTest wiht priority " + 6);
+	public void methodTest4() {
+		System.out.println("methodTest with priority " + 6);
 	}
 	
-	@BeforeSuite
-	public void methodTEst5() {
-		System.out.println("methodTest wiht priority " + 0);
-	}
+	
 	
 
 	
