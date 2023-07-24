@@ -1,6 +1,4 @@
-package ua.hillel.hw20;
-
-import ua.hillel.hw20.strategy.CalcAreaStrategy;
+package ua.hillel.hw20.strategy;
 
 public class TriangleAreaStrategy implements CalcAreaStrategy {
 

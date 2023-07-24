@@ -1,7 +1,5 @@
 package ua.hillel.hw20.strategy;
 
-import ua.hillel.hw20.TriangleAreaStrategy;
-
 public class Main {
 
 	public static void main(String[] args) {
